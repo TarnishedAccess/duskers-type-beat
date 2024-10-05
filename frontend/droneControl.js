@@ -6,7 +6,7 @@ function sendDroneCommand(context, user, message) {
         message: message
     };
 
-    fetch('http://127.0.0.1:5000', {
+    fetch('http://127.0.0.1:5001', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -40,7 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btnElement) {
             btnElement.addEventListener('click', () => {
                 const context = 'moveCMD';
-                const user = 'MentalBoom';
+                /* Replace user with selected drone ID/name */
+                const user = 'Controller';
                 const message = button.command;
 
                 sendDroneCommand(context, user, message);
