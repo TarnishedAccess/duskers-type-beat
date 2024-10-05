@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">    
+    <meta name="viewport" content="width=device-width" />
+    <title>Drone Control Interface</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="body-overlay"></div>
+        <div id="Header" class="Header">
+            <div id="logo" class="logo">
+                <h1>MENTAL LLC REMOTE DRONE CONTROL SYSTEM</h1>      
+            </div>
+        </div>
+        <main>
+            <div id="droneSelect" class="droneSelect">
+                <div id="droneCard1" class="droneCard">
+                    <div id="droneStatusCard1" class="droneStatusCard">
+                        <div id="droneNumber1" class="droneNumber">DRONE 1:</div> 
+                        <div id="droneStatus1" class="droneStatus">ONLINE</div>
+                    </div>
+                    <div id="droneInfo1" class="droneInfo">
+                        <div class="droneInfoSquare">
+                            <div id="droneInformation1" class="droneInformation">
+                                <div id="droneName1" class="droneName">
+                                    <div id="droneNameTitle1" class="droneNameTitle">Name:</div>
+                                    <div id="droneNameField1" class="droneNameField">DIDDY</div>
+                                </div>
+                                <div id="droneMode1" class="droneMode">
+                                    <div id="droneModeTitle1" class="droneModeTitle">Mode:</div>
+                                    <div id="droneModeField1" class="droneModeField">MANUAL</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="battery">
+                            <div class="battery-level">
+                                <div class="division"></div>
+                                <div class="division"></div>
+                                <div class="division"></div>
+                                <div class="division"></div>
+                                <div class="division"></div>
+                            </div>
+                        </div>   
+                    </div>
+                </div>
+                <div id="droneCard2" class="droneCard">
+                    <div id="droneStatusCard2" class="droneStatusCard">
+                        <div id="droneNumber2" class="droneNumber">DRONE 2:</div> 
+                        <div id="droneStatus2" class="droneStatus">ONLINE</div>
+                    </div>
+                    <div id="droneInfo2" class="droneInfo">
+                        <div class="droneInfoSquare">
+                            <div id="droneName1" class="droneName">
+                                <div id="droneNameTitle2" class="droneNameTitle">Name:</div>
+                                <div id="droneNameField2" class="droneNameField">TERRA</div>
+                            </div>
+                            <div id="droneMode1" class="droneMode">
+                                <div id="droneModeTitle2" class="droneModeTitle">Mode:</div>
+                                <div id="droneModeField2" class="droneModeField">AUTO</div>
+                            </div>
+                        </div>
+                        <div class="battery">
+                            <div class="battery-level">
+                                <div class="division"></div>
+                                <div class="division"></div>
+                                <div class="division"></div>
+                                <div class="division"></div>
+                                <div class="division"></div>
+                            </div>
+                        </div>   
+                    </div>
+                </div>
+                <div id="droneCard3" class="droneCard">
+                    <div id="droneStatusCard3" class="droneStatusCard">
+                        <div id="droneNumber3" class="droneNumber">DRONE 3:</div> 
+                        <div id="droneStatus3" class="droneStatus">OFFLINE</div>
+                    </div>
+                    <div id="droneInfo3" class="droneInfo">
+                        <div id="droneInformation3" class="droneInformation">
+                            <p class="flashing-text">ERROR</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="droneCard4" class="droneCard">
+                    <div id="droneStatusCard4" class="droneStatusCard">
+                        <div id="droneNumber4" class="droneNumber">DRONE 4:</div> 
+                        <div id="droneStatus4" class="droneStatus">OFFLINE</div>
+                    </div>
+                    <div id="droneInfo4" class="droneInfo">
+                        <div id="droneInformation3" class="droneInformation">
+                            <p class="flashing-text">ERROR</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="droneTable" class="droneTable">
+                <div id="droneControlContainer" class="droneControlContainer">
+                    <div id="droneControlSwitchContainer" class="droneControlSwitchContainer">
+                        <h1>MANUAL OVERRIDE</h1>
+                        <div class="toggle-container">
+                            <input type="checkbox" id="toggle" class="toggle-checkbox">
+                            <label for="toggle" class="toggle-label"></label>
+                        </div>
+                    </div>
+                    <div id="droneManualControlContainer" class="droneManualControlContainer">
+                        <div id="manualControls" class="manualControls">
+                            <div class="control-panel">
+                                <div class="button click" id="left-click">LC</div>
+                                <div class="button arrow" id="up">↑</div>
+                                <div class="button click" id="right-click">RC</div>
+                                <div class="button arrow" id="left">←</div>
+                                <div class="empty space"></div>
+                                <div class="button arrow" id="right">→</div>
+                                <div class="button arrow-level" id="level-down">↡</div>
+                                <div class="button arrow" id="down">↓</div>
+                                <div class="button arrow-level" id="level-up">↟</div>
+                                
+                                <script src="droneControl.js"></script>
+                            </div>
+                        </div>
+                        <div id="droneModuleSelect" class="droneModuleSelect"></div>
+                        <div id="droneModuleView" class="droneModuleView"></div>
+                    </div>
+                </div>
+                <div id="droneCodeContainer" class="droneCodeContainer">
+                    <div id="logTitle" class="logTitle">
+                        <h1>LOG</h1>
+                    </div>
+                    <div id="logContainer" class="logContainer">
+                        <textarea class="dark-input-field" disabled> </textarea>
+                    </div>
+                    <div id="logInputContainer" class="logInputContainer">
+                        <input type="text" placeholder=">..." class="dark-input ">
+                        <button class="send-button">RUN</button>
+                    </div>
+                </div>  
+            </div>
+        </main>
+  </body>
+</html>

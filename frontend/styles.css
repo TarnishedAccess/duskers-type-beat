@@ -1,0 +1,466 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+}
+
+.Header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 15%;
+}
+
+main {
+    border: 3px ridge yellow;
+    height: 83%;
+    width: 94%;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    background-color: rgb(94, 94, 0);
+    border: 5px ridge yellow;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+}
+
+body {
+    overflow: hidden;
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(14, 13, 13); 
+}
+
+h1 {
+    text-align: center;
+    color: yellow;
+}
+
+.logo h1 {
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.droneSelect {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 25%;
+    border: 1px solid yellow;
+    padding: 10px;
+}
+
+.droneCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25%;
+    height: 100%;
+    border: 3px solid yellow;
+    background-color: rgb(30, 30, 30);
+    color: white;
+}
+
+.droneStatusCard {
+    border: 1px solid yellow;
+    display: flex;
+    justify-content: center;
+}
+
+.droneInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 3rem;
+}
+
+.droneNumber, .droneStatus, .droneBattery {
+    padding: 2px;
+}
+
+.droneName, .droneMode {
+    display: flex;
+    gap: 1rem;
+}
+
+.droneNameField, .droneModeField {
+    color: yellow;
+}
+
+.droneBattery {
+    display: flex;
+    justify-content: center;
+}
+
+.droneTable {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(30, 30, 30);
+}
+
+.droneControls {
+    width: 60%;
+    border: 1px solid yellow;
+}
+
+.controlSwitch {
+    margin-bottom: 20px;
+}
+
+.droneCode {
+    width: 40%;
+    border: 1px solid yellow;
+}
+
+.codeTitle {
+    margin-bottom: 10px;
+}
+
+.codeInput textarea {
+    width: 100%;
+    height: 100%;
+}
+
+.battery {
+    width: 20px;
+    height: 50px;
+    border: 2px solid yellow;
+    position: relative;
+    display: inline-block;
+    margin-left: 50px;
+    padding: 2px;
+}
+
+.battery-level {
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.division {
+    height: 8px;
+    background-color: rgb(155, 155, 1);
+    margin-bottom: 2px;
+    width: 100%;
+}
+
+.droneControlContainer {
+    border: 1px solid yellow;
+    width: 60%;
+}
+
+.droneCodeContainer {
+    border: 1px solid yellow;
+    width: 40%;
+}
+
+.droneControlSwitchContainer {
+    border: 1px solid yellow;
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    letter-spacing: 0.3rem;
+
+}
+
+.droneManualControlContainer {
+    border: 1px solid yellow;
+    height: 85%;
+    display: flex;
+}
+
+.toggle-container {
+    display: inline-block;
+    position: relative;
+    width: 70px;    
+    height: 30px;
+}
+
+.toggle-checkbox {
+    display: none;
+}
+
+.toggle-label {
+    position: absolute;
+    cursor: pointer;
+    background-color: rgb(0, 0, 0);
+    border: 2px solid yellow;
+    border-radius: 30px;
+    width: 100%;
+    height: 100%;
+    transition: background-color 0.3s;
+}
+
+.toggle-label::before {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    background-color: yellow;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.toggle-checkbox:checked + .toggle-label {
+    background-color: olive;
+}
+
+.toggle-checkbox:checked + .toggle-label::before {
+    transform: translateX(40px);
+}
+
+.flashing-text{
+    color: rgb(255, 0, 0);
+    animation: flash 1s infinite;
+}
+
+.logTitle {
+    border: 1px solid yellow;
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    letter-spacing: 0.3rem;
+}
+
+.logContainer {
+    height: 75%;
+    padding: 5px;
+    border: 1px solid yellow;
+}
+
+.logInputContainer {
+    height: 10%;
+    border: 1px solid yellow;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-content: space-between;
+}
+
+.dark-input {
+    background-color: #0f0f0f;
+    color: #FFD700;
+    border: 2px solid #FFD700;
+    padding-left: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    height: 80%;
+    outline: none;
+    width:78%;
+}
+
+.dark-input-field {
+    background-color: #0f0f0f;
+    padding: 5px;
+    color: #FFD700;
+    border: 0px;
+    font-size: 16px;
+    border-radius: 4px;
+    height: 100%;
+    outline: none;
+    width:100%;
+    resize: none;
+}
+
+.dark-input::placeholder {
+    color: #FFD700;
+}
+
+.send-button {
+    background-color: transparent;
+    color: #FFD700;
+    border: 2px solid #FFD700;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: rgb(0, 0, 0);
+    transition: background-color 0.3s ease;
+    font-family: 'Bebas Neue', sans-serif;
+    text-align: center;
+    height: 80%;
+    width: 20%;
+    
+    /* Center the text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.send-button:hover {
+    background-color: #ad9401;
+    color: #333;
+    box-shadow: 0px 0px 10px #abb800;
+}
+
+.manualControls {
+    border: 1px solid yellow;
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.droneModuleSelect{
+    border: 1px solid yellow;
+    width: 10%;
+}
+
+.droneModuleView{
+    border: 1px solid yellow;
+    width: 45%;
+}
+
+/* CONTROLS */
+
+.control-panel {
+    display: grid;
+    row-gap: 5px;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(3, 75px);
+    width: 100%;
+}
+
+.control-panel .button {
+    background-color: #000000;
+    color: yellow;
+    border: 2px solid yellow;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.control-panel .button:hover {
+    background-color: rgb(151, 151, 1);
+    color: black;
+    box-shadow: 0px 0px 10px #abb800;
+}
+
+.arrow {
+    font-size: 40px;
+}
+
+.click {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.arrow-level {
+    font-size: 36px;
+}
+
+/* CRT EFFECT */
+
+.body-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(16, 14, 14, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+      linear-gradient(
+        90deg,
+        rgba(255, 0, 0, 0.03),
+        rgba(0, 255, 0, 0.03),
+        rgba(0, 0, 255, 0.03)
+      );
+    background-size: 100% 4px, 30px 100%;
+    z-index: 1;
+    animation: flicker 300ms infinite;
+    pointer-events: none;
+    box-shadow: 2px 0px 3px rgba(255, 0, 0, 0.05), -2px 0px 3px rgba(0, 0, 255, 0.05);
+    transform: perspective(1000px) rotateX(20deg)
+}
+
+.body-overlay:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0) 30%, rgba(0, 0, 0, 1) 100%);
+    z-index: 2;
+    pointer-events: none;
+    transform: perspective(1000px) rotateX(2deg)
+}
+
+/* KEYFRAMES */
+
+@keyframes flicker {
+    0%, 100% {
+        transform: translateY(0px);
+        opacity: 0.95;
+    }
+    50% {
+        transform: translateY(1px);
+        opacity: 1;
+    }
+    25%, 75% {
+        transform: translateY(2px);
+        opacity: 0.9;
+    }
+    10%, 90% {
+        opacity: 0.85;
+    }
+}
+
+@keyframes flash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* SHOULD BE DONE WITH JS FROM HERE ON */
+
+#droneStatus1, #droneStatus2 {
+    color: green;
+}
+
+#droneStatus3, #droneStatus4 {
+    color: red;
+}
+
+#droneInformation3, #droneInformation4 {
+    font-size: 2.5rem;
+    letter-spacing: 1rem;    
+    color: red;
+}
+
+
+#droneCard3, #droneCard4 {
+    background-color: rgb(100, 0, 0);
+}
+
+
