@@ -7,11 +7,12 @@ connected_clients = []
 # HTTP handler for JS calls
 async def handle_request(request):
     data = await request.json()
+    targetDrone = data.get('user')
     message = data.get('message')
-    print(f"Received API request: {message}")
+    print(f"Received API request: {targetDrone}:{message}")
 
     # Eventually want to broadcast message to selected drone rather than all
-    await broadcast_message(message)
+    await broadcast_message_target(targetDrone, message)
     return web.json_response({'status': 'success', 'message': 'Command broadcasted to Lua clients!'})
 
 # TCP handler for Lua clients
@@ -44,6 +45,11 @@ async def broadcast_message(message):
     for client in connected_clients:
         client.write(f"{message}\n".encode())
         await client.drain()
+
+async def broadcast_message_target(target, message):
+    print(f"Broadcasting message to targetted Lua client: {message}")
+    connected_clients[target].write(f"{message}\n".encode())
+    await connected_clients[target].drain()
 
 # Main server function
 async def main():

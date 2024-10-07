@@ -25,7 +25,23 @@ function sendDroneCommand(context, user, message) {
 document.addEventListener('DOMContentLoaded', () => {
     const inputLog = document.getElementById('dark-input-field');
 
+    let droneLogs = ["", "", "", ""];
+
     inputLog.value = "";
+
+    let selectedDrone = null;
+    const droneCards = document.querySelectorAll('.droneCard');
+    
+    function handleDroneCardClick(index) {
+        droneCards.forEach(card => card.classList.remove('selected'));
+        droneCards[index].classList.add('selected');
+        selectedDrone = index;
+        inputLog.value = droneLogs[selectedDrone]
+        console.log('Selected Drone:', selectedDrone);
+    }
+    droneCards.forEach((card, index) => {
+        card.addEventListener('click', () => handleDroneCardClick(index));
+    });
 
     const buttons = [
         { id: 'left-click', command: 'robot.swing()' },
@@ -44,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btnElement) {
             btnElement.addEventListener('click', () => {
                 const context = 'moveCMD';
-                const user = 'Controller';
+                const user = selectedDrone;
                 const message = button.command;
 
                 sendDroneCommand(context, user, message);
@@ -59,12 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sendButton && inputField) {
         sendButton.addEventListener('click', () => {
             const context = 'manualCMD';
-            const user = 'Controller';
+            const user = selectedDrone;
             const message = inputField.value; // Get the value from the input field
 
             // Send the input value as the message
             sendDroneCommand(context, user, message);
-            inputLog.value += inputField.value + "\n"
+            droneLogs[selectedDrone] += inputField.value + "\n"
+            inputLog.value = droneLogs[selectedDrone]
         });
     }
 });
