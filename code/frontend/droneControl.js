@@ -21,6 +21,69 @@ function sendDroneCommand(context, user, message) {
     });
 }
 
+// Function to get all connected drones
+function fetchConnectedDrones() {
+    fetch('http://127.0.0.1:5001/connected_drones', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Connected Drones:', data.connected_drones);
+
+        data.connected_drones.forEach((drone, i) => {
+            const index = i + 1;
+            updateDrone(index, drone.name);
+        });
+
+    })
+    .catch(error => {
+        console.error('Error fetching connected drones:', error);
+    });
+}
+
+// Swap selected drone from offline to online and give it a name
+function updateDrone(index, name) {
+
+    const droneCard = document.getElementById(`droneCard${index}`);
+    const droneStatus = document.getElementById(`droneStatus${index}`);
+    const droneInfo = document.getElementById(`droneInfo${index}`);
+    const droneInformation = document.getElementById(`droneInformation${index}`);
+    
+    droneCard.classList.remove('droneCardOffline');
+    
+    droneStatus.classList.remove('droneStatusOffline');
+    droneStatus.classList.add('droneStatusOnline');
+
+    droneInfo.classList.remove('droneInfoOffline');
+
+    droneStatus.textContent = "ONLINE";
+    
+    droneInformation.innerHTML = `
+        <div class="droneInfoSquare">
+            <div id="droneName${index}" class="droneName">
+                <div id="droneNameTitle${index}" class="droneNameTitle">Name:</div>
+                <div id="droneNameField${index}" class="droneNameField">${name}</div>
+            </div>
+            <div id="droneMode${index}" class="droneMode">
+                <div id="droneModeTitle${index}" class="droneModeTitle">Mode:</div>
+                <div id="droneModeField${index}" class="droneModeField">AUTO</div>
+            </div>
+        </div>
+        <div class="battery">
+            <div class="battery-level">
+                <div class="division"></div>
+                <div class="division"></div>
+                <div class="division"></div>
+                <div class="division"></div>
+                <div class="division"></div>
+            </div>
+        </div>
+    `;
+}
+
 // event listeners for custom buttons and input
 document.addEventListener('DOMContentLoaded', () => {
     const inputLog = document.getElementById('dark-input-field');
@@ -54,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'level-up', command: 'robot.up()' },
     ];
 
-    // Loop through your predefined buttons
     buttons.forEach(button => {
         const btnElement = document.getElementById(button.id);
         if (btnElement) {
@@ -68,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Event listener for the "RUN" button and input field
     const sendButton = document.getElementById('send-Button');
     const inputField = document.getElementById('dark-input');
 
@@ -76,12 +137,13 @@ document.addEventListener('DOMContentLoaded', () => {
         sendButton.addEventListener('click', () => {
             const context = 'manualCMD';
             const user = selectedDrone;
-            const message = inputField.value; // Get the value from the input field
+            const message = inputField.value;
 
-            // Send the input value as the message
             sendDroneCommand(context, user, message);
             droneLogs[selectedDrone] += inputField.value + "\n"
             inputLog.value = droneLogs[selectedDrone]
         });
     }
+
+    fetchConnectedDrones();
 });

@@ -26,6 +26,8 @@ end
 
 print("Connection established. " .. name .. " online.")
 
+handle.write(name)
+
 while true do
     local data = handle.read(1024)
     if #data > 0 then

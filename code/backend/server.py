@@ -2,6 +2,11 @@ from aiohttp import web
 import aiohttp_cors
 import asyncio
 
+class Drone:
+    def __init__(self, name, writer):
+        self.name = name
+        self.writer = writer
+
 connected_clients = []
 
 # HTTP handler for JS calls
@@ -11,15 +16,20 @@ async def handle_request(request):
     message = data.get('message')
     print(f"Received API request: {targetDrone}:{message}")
 
-    # Eventually want to broadcast message to selected drone rather than all
     await broadcast_message_target(targetDrone, message)
     return web.json_response({'status': 'success', 'message': 'Command broadcasted to Lua clients!'})
+
+async def get_connected_drones(request):
+    drones = [{'name': drone.name} for drone in connected_clients]
+    return web.json_response({'connected_drones': drones})
 
 # TCP handler for Lua clients
 async def handle_client(reader, writer):
     addr = writer.get_extra_info('peername')
     print(f"New Lua client connected from {addr}")
-    connected_clients.append(writer)
+
+    name = await reader.read(100)
+    connected_clients.append(Drone(name.decode().strip(), writer))
 
     try:
         while True:
@@ -34,22 +44,24 @@ async def handle_client(reader, writer):
     except ConnectionResetError:
         print(f"Lua client {addr} disconnected.")
     finally:
-        connected_clients.remove(writer)
+        for connected_client in connected_clients:
+            if connected_client.writer == writer:
+                connected_clients.remove(connected_client)
         writer.close()
         await writer.wait_closed()
 
 # Broadcast messages to all Lua clients
-# Change this to be broadcasted to a specific drone later
 async def broadcast_message(message):
     print(f"Broadcasting message to all Lua clients: {message}")
-    for client in connected_clients:
-        client.write(f"{message}\n".encode())
-        await client.drain()
+    for connected_client in connected_clients:
+        connected_client.writer.write(f"{message}\n".encode())
+        await connected_client.writer.drain()
 
+# Broadcast message to specific client
 async def broadcast_message_target(target, message):
     print(f"Broadcasting message to targetted Lua client: {message}")
-    connected_clients[target].write(f"{message}\n".encode())
-    await connected_clients[target].drain()
+    connected_clients[target].writer.write(f"{message}\n".encode())
+    await connected_clients[target].writer.drain()
 
 # Main server function
 async def main():
@@ -71,6 +83,9 @@ async def main():
     # HTTP route for JS calls
     route = app.router.add_post('/', handle_request)
     cors.add(route)
+
+    get_route = app.router.add_get('/connected_drones', get_connected_drones)
+    cors.add(get_route)
 
     print("Servers started: TCP port 5000, HTTP port 5001.")
 

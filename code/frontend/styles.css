@@ -90,11 +90,8 @@ h1 {
 
 .droneInfo {
     display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     height: 100%;
-    gap: 3rem;
 }
 
 .droneNumber, .droneStatus, .droneBattery {
@@ -446,25 +443,36 @@ h1 {
     50% { opacity: 0; }
 }
 
-/* SHOULD BE DONE WITH JS FROM HERE ON */
-
-#droneStatus1, #droneStatus2 {
+.droneStatusOnline {
     color: green;
 }
 
-#droneStatus3, #droneStatus4 {
+.droneStatusOffline {
     color: red;
 }
 
-#droneInformation3, #droneInformation4 {
+.droneInformation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.droneInformationOffline {
     font-size: 2.5rem;
     letter-spacing: 1rem;    
     color: red;
 }
 
-
-#droneCard3, #droneCard4 {
+.droneCardOffline {
     background-color: rgb(100, 0, 0);
+}
+
+.droneInfoOffline {
+    font-size: 2.5rem;
+    letter-spacing: 1rem;    
+    color: red;
 }
 
 
