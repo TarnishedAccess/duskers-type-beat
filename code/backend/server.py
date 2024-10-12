@@ -2,9 +2,11 @@ from aiohttp import web
 import aiohttp_cors
 import asyncio
 
+IGNORED_COMPONENTS = ['keyboard', 'filesystem', 'modem', 'gpu', 'screen', 'internet', 'eeprom', 'robot']
 class Drone:
-    def __init__(self, name, writer):
+    def __init__(self, name, components, writer):
         self.name = name
+        self.components = components
         self.writer = writer
 
 connected_clients = []
@@ -20,7 +22,7 @@ async def handle_request(request):
     return web.json_response({'status': 'success', 'message': 'Command broadcasted to Lua clients!'})
 
 async def get_connected_drones(request):
-    drones = [{'name': drone.name} for drone in connected_clients]
+    drones = [{'name': drone.name, 'components': drone.components} for drone in connected_clients]
     return web.json_response({'connected_drones': drones})
 
 # TCP handler for Lua clients
@@ -28,8 +30,36 @@ async def handle_client(reader, writer):
     addr = writer.get_extra_info('peername')
     print(f"New Lua client connected from {addr}")
 
-    name = await reader.read(100)
-    connected_clients.append(Drone(name.decode().strip(), writer))
+    handshake = await reader.read(1024)
+    name, components = handshake.decode().split('|')
+    components_list = [component.strip() for component in components.split(',')]
+
+    # Filter out ignored components without modifying the list while iterating
+    components_list = [component for component in components_list if component not in IGNORED_COMPONENTS]
+
+    #==============================================#
+    #ignored components:
+    #keyboard, filesystem, modem, gpu, screen, internet, eeprom
+
+    #ignore for now:
+    #robot
+
+    #potential uses:
+    #computer: energy, shutdown, reboot, uptime
+    #camera: distance front/up/down
+    #radar: getplayers, getmobs, getitems
+    #generator: refuel
+    #navigation: get position, get facing
+    #inventory controller: general inv management
+    #==============================================#
+
+
+    #======TESTS=======
+    print(name)
+    print(components_list)
+    #==================
+
+    connected_clients.append(Drone(name, components_list, writer))
 
     try:
         while True:

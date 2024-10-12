@@ -1,3 +1,15 @@
+const abbreviationDict = {
+    radar: 'RDR',
+    computer: 'CMP',
+    camera: 'CAM',
+    generator: 'GEN',
+    navigation: 'NAV',
+    inventory_controller: 'INV',
+    geolyzer: 'GEO'
+};
+
+var droneComponents = [];
+
 function sendDroneCommand(context, user, message) {
     const data = {
         context: context,
@@ -23,21 +35,25 @@ function sendDroneCommand(context, user, message) {
 
 // Function to get all connected drones
 function fetchConnectedDrones() {
+    droneComponents = [];
     fetch('http://127.0.0.1:5001/connected_drones', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         }
     })
+
+
     .then(response => response.json())
     .then(data => {
-        console.log('Connected Drones:', data.connected_drones);
+        //console.log('Connected Drones:', data.connected_drones);
 
         data.connected_drones.forEach((drone, i) => {
             const index = i + 1;
             updateDrone(index, drone.name);
+            droneComponents.push(drone.components.sort());
         });
-
+        console.log(droneComponents);
     })
     .catch(error => {
         console.error('Error fetching connected drones:', error);
@@ -99,8 +115,21 @@ document.addEventListener('DOMContentLoaded', () => {
         droneCards.forEach(card => card.classList.remove('selected'));
         droneCards[index].classList.add('selected');
         selectedDrone = index;
-        inputLog.value = droneLogs[selectedDrone]
+        inputLog.value = droneLogs[selectedDrone];
+
+        selectedDroneComponents = droneComponents[selectedDrone];
+        
         console.log('Selected Drone:', selectedDrone);
+        console.log('Selected Components:', selectedDroneComponents);
+
+        const droneModules = document.getElementById(`droneModuleSelect`);
+        droneModules.innerHTML = ``;
+        selectedDroneComponents.forEach(component => {
+            droneModules.innerHTML += `
+            <div id="droneModule${selectedDrone}" class="droneModule button">${abbreviationDict[component]}</div>
+            `;
+        });
+
     }
     droneCards.forEach((card, index) => {
         card.addEventListener('click', () => handleDroneCardClick(index));

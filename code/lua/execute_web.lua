@@ -20,13 +20,20 @@ function executeInput(code)
     end
 end
 
+--inefficient but i dont really care, if its a problem change it later
+local component_list = {}
+for k, v in component.list() do
+    table.insert(component_list, v)
+end
+local component_string = table.concat(component_list, ", ")
+
 while not handle.finishConnect() do
     os.sleep(0.1)
 end
 
 print("Connection established. " .. name .. " online.")
 
-handle.write(name)
+handle.write(name .. "|" .. component_string)
 
 while true do
     local data = handle.read(1024)
