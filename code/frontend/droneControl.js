@@ -46,7 +46,6 @@ function fetchConnectedDrones() {
 
     .then(response => response.json())
     .then(data => {
-        //console.log('Connected Drones:', data.connected_drones);
 
         data.connected_drones.forEach((drone, i) => {
             const index = i + 1;
@@ -58,6 +57,26 @@ function fetchConnectedDrones() {
     .catch(error => {
         console.error('Error fetching connected drones:', error);
     });
+}
+
+async function fetchDroneInfo(drone, context) {
+    try {
+        const response = await fetch(`http://127.0.0.1:5001/drone_info?param1=${drone}&param2=${context}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching connected drones:', error);
+        throw error;
+    }
 }
 
 // Swap selected drone from offline to online and give it a name
@@ -126,11 +145,59 @@ document.addEventListener('DOMContentLoaded', () => {
         droneModules.innerHTML = ``;
         selectedDroneComponents.forEach(component => {
             droneModules.innerHTML += `
-            <div id="droneModule${selectedDrone}" class="droneModule button">${abbreviationDict[component]}</div>
+            <div id="droneModule${component}" class="droneModule button">${abbreviationDict[component]}</div>
             `;
         });
 
+        selectedDroneComponents.forEach(component => {
+            const button = document.getElementById(`droneModule${component}`);
+            if (button) {
+                button.onclick = () => handleComponentClick(component);
+            }
+        });
+
     }
+
+    // YOUR WORK IS DOWN HERE
+
+    function handleComponentClick(component) {
+        switch (component) {
+            case 'radar':
+                console.log('Radar clicked');
+                break;
+            case 'computer':
+                console.log('Computer clicked');
+                break;
+            case 'camera':
+                console.log('Camera clicked');
+                break;
+            case 'generator':
+                
+                fetchDroneInfo(1, 'computer.energy()')
+                .then(data => {
+                    console.log('Fetched drone data:', data);
+                })
+                .catch(error => {
+                    console.error('Failed to fetch drone info:', error);
+                });
+                break;
+
+            case 'navigation':
+                console.log('Navigation clicked');
+                break;
+            case 'inventory_controller':
+                console.log('Inventory Controller clicked');
+                break;
+            case 'geolyzer':
+                console.log('Geolyzer clicked');
+                break;
+            default:
+                console.log('Unknown component:', component);
+        }
+    }
+
+    // YOUR WORK IS UP HERE
+
     droneCards.forEach((card, index) => {
         card.addEventListener('click', () => handleDroneCardClick(index));
     });

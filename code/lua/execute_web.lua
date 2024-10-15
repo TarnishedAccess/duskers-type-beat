@@ -1,5 +1,6 @@
 robot = require("robot")
 event = require("event")
+computer = require("computer")
 component = require("component")
 internet = component.internet
 handle = internet.connect("127.0.0.1", 5000)
@@ -20,7 +21,7 @@ function executeInput(code)
     end
 end
 
---inefficient but i dont really care, if its a problem change it later
+--inefficient but i dont really care, will change later if it becomes an issue
 local component_list = {}
 for k, v in component.list() do
     table.insert(component_list, v)
@@ -39,7 +40,16 @@ while true do
     local data = handle.read(1024)
     if #data > 0 then
         print("Received: " .. data)
-        executeInput(data)
+
+        if string.sub(data, 1, 6) == "reply:" then
+            local data = string.sub(data, 7):gsub("^%s*(.-)%s*$", "%1")
+            executeInput(data)
+            handle.write("reply:" .. queryReply)
+            print("Data sent: " .. queryReply)
+        else
+            executeInput(data)
+        end
+            
     elseif err then
         print("Error reading from server: " .. err)
         break
